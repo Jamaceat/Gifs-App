@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { GifsService } from '../../services/gifs.service';
 
 @Component({
@@ -9,6 +15,9 @@ import { GifsService } from '../../services/gifs.service';
 export class SearchBoxComponent {
   @ViewChild('txtTagInput')
   tagInput!: ElementRef<HTMLInputElement>;
+
+  @Output()
+  LookingForGif: EventEmitter<string> = new EventEmitter();
 
   constructor(private gifsService: GifsService) {}
 
