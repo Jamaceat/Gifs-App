@@ -4,7 +4,10 @@ import { Gif, SearchResponse } from '../interfaces/SearchResponse.interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class GifsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.lookLocalStorage();
+    this.setFirstTag();
+  }
 
   private apiKey = '1Uds1iLnJTFlyxD7WONMcp9QWOAeXln0';
   private _tagsHistory: string[] = [];
@@ -14,6 +17,12 @@ export class GifsService {
 
   get tagHistory() {
     return [...this._tagsHistory];
+  }
+
+  setFirstTag(): void {
+    if (this._tagsHistory.length > 0) {
+      this.searchTag(this.tagHistory[0]);
+    }
   }
 
   private organizeHistory(tag: string) {
@@ -32,9 +41,24 @@ export class GifsService {
     this._tagsHistory = this._tagsHistory.splice(0, 10);
 
     this.searchTagAPI(tag);
+
+    this.saveLocalStorage();
+    this.lookLocalStorage();
   }
 
-  async searchTagAPI(tag: string): Promise<void> {
+  private saveLocalStorage(): void {
+    localStorage.setItem('history', JSON.stringify(this._tagsHistory));
+  }
+
+  private lookLocalStorage(): void {
+    if (!localStorage.getItem('history')) {
+      this.saveLocalStorage();
+    } else {
+      this._tagsHistory = JSON.parse(localStorage.getItem('history')!);
+    }
+  }
+
+  private async searchTagAPI(tag: string): Promise<void> {
     if (tag.length === 0) return;
     this.organizeHistory(tag);
 
@@ -51,4 +75,9 @@ export class GifsService {
       });
     //
   }
+}
+function getItem(
+  arg0: string
+): ((this: any, key: string, value: any) => any) | undefined {
+  throw new Error('Function not implemented.');
 }

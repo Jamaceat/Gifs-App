@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
-import { GifsService } from '../../services/gifs.service';
+import { Component, Input } from '@angular/core';
+
+import { Gif } from '../../interfaces/SearchResponse.interfaces';
 
 @Component({
   selector: 'gifs-card-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
-export class ListComponent {}
+export class ListComponent {
+  @Input()
+  public gifs: Gif[] = [];
+}

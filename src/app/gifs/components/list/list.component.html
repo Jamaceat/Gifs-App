@@ -1,15 +1,18 @@
 <div class="row py-4">
-  <div class="col-md-3 col-sm-6">
+  <div class="col-md-3 col-sm-6" *ngFor="let gif of gifs">
     <div class="card mb-2 bg-dark text-center">
+      <img
+        [src]="gif.images.downsized_medium.url"
+        [alt]="gif.title"
+        class="card-img-top"
+      />
+
       <div class="card-body text-white">
-        <div class="card-text">Hola mundo</div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 col-sm-6">
-    <div class="card mb-2 bg-dark text-center">
-      <div class="card-body text-white">
-        <div class="card-text">Hola mundo</div>
+        <div class="card-text">
+          <p>
+            {{ gif.title }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
